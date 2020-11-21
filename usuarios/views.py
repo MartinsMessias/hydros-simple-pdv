@@ -9,3 +9,4 @@ class CadastrarUsuarioView(CreateView):
     form_class = CustomUserCreationForm
     template_name = 'usuarios/form_usuario.html'
     success_url = 'usuarios/'
+
