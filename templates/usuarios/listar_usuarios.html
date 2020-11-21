@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}
+Listagem de usuarios
+{% endblock title %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Usuário</th>
+                <th>E-mail</th>
+                <th>Último acesso</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in object_list %}
+            <tr>
+                <td>{{i.username }}</td>
+                <td>{{i.email }}</td>
+                <td>{{i.last_login }}</td>
+                <td>
+                    <a href="{% url 'editar_usuario' i.id %}">Editar</a>
+                    <a href="{% url 'remover_usuario' i.id %}">Remover</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'cadastrar_usuario' %}"><button class="btn btn-primary">Cadastrar usuário</button></a>
+{% endblock content %}
