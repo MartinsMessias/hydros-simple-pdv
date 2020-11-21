@@ -18,8 +18,8 @@ class Venda(models.Model):
         return f'{self.data} - {self.cliente.nome}'
 
 
-class VendaDetalhes(models.Model):
-    venda = models.ForeignKey(Venda, on_delete=models.CASCADE)
+class ItemVendaDetalhes(models.Model):
+    venda_id = models.ForeignKey(Venda, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField(default=0)
     valor = models.DecimalField(max_digits=11, decimal_places=2, default=0)
