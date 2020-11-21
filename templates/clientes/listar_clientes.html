@@ -14,7 +14,7 @@ Listagem de clientes
             </tr>
         </thead>
         <tbody>
-            {% for i in clientes %}
+            {% for i in object_list %}
             <tr>
 {#                <td><a href="{% url 'listar_cliente_id' i.id %}">{{i.nome|safe}}</a></td>#}
                 <td>{{i.nome }}</td>
@@ -28,5 +28,5 @@ Listagem de clientes
         </tbody>
     </table>
 
-{#    <a href="{% url 'cadastrar_cliente' %}"><button class="btn btn-primary">Cadastrar</button></a>#}
+    <a href="{% url 'cadastrar_cliente' %}"><button class="btn btn-primary">Cadastrar cliente</button></a>
 {% endblock content %}

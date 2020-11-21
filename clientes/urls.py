@@ -1,8 +1,8 @@
 from django.urls import path
 
-from clientes.views import ListarClientes, CadastrarCliente
+from clientes.views import ListarClientesView, CadastrarCliente
 
 urlpatterns = [
-    path('', ListarClientes.as_view(), name='cliente_list'),
+    path('listar/', ListarClientesView.as_view(), name='listar_clientes'),
     path('cadastrar/', CadastrarCliente.as_view(), name='cadastrar_cliente'),
 ]
