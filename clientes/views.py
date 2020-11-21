@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
-from django.views import View
+from django.views.generic import ListView, CreateView, UpdateView
+from django.views.generic.base import View
 
 from clientes.entities import cliente_entity
 from clientes.forms import ClienteForm
@@ -7,13 +8,20 @@ from clientes.models import Cliente
 from clientes.services import cliente_services
 
 
-class Clientes(View):
+class ListarClientes(ListView):
     model = Cliente
+    template_name = 'clientes/listar_clientes.html'
 
     def get(self, request, *args, **kwargs):
         context = {'clientes': cliente_services.listar_clientes() }
-        return render(request, 'clientes/listar_clientes.html', context)
+        return render(request, self.template_name, context)
 
+class CadastrarCliente(ListView):
+    template_name = 'clientes/form_cliente.html'
+
+    def get(self, request, *args, **kwargs):
+        form_cliente = ClienteForm()
+        return render(request, self.template_name, {'form_cliente': form_cliente})
 
     def post(self, request, *args, **kwargs):
         form_cliente = ClienteForm(request.POST)
@@ -28,4 +36,4 @@ class Clientes(View):
         else:
             form_cliente = ClienteForm()
 
-        return render(request, 'clientes/form_cliente.html', {'form_cliente': form_cliente})
+        return render(request, self.template_name, {'form_cliente': form_cliente})
