@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load tags %}
+{% block title %}
+Gestão de usuários
+{% endblock title %}
+
+{% block content %}
+    <form method="post">
+
+        {% csrf_token %}
+        {{ form.as_p }}
+        <div class="form-group">
+{#            <a href="{% url 'listar_vendas' %}" class="btn btn-secondary">Voltar</a>#}
+            <button class="btn btn-primary" type="submit" name="cadastrar">Ok</button>
+        </div>
+    </form>
+
+{% endblock content %}
