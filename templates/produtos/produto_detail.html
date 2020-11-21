@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}
+Listagem de produtos
+{% endblock title %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Dados do produto
+    </div>
+    <div class="card-body">
+        <h5 class="card-title"><strong>Código:</strong> {{produto.codigo}}</h5>
+        <br />
+        <h5 class="card-title"><strong>Produto:</strong> {{produto.produto}}</h5>
+        <br />
+        <h5 class="card-title"><strong>Descrição:</strong> {{produto.descricao}}</h5>
+        <br />
+        <h5 class="card-title"><strong>Preço:</strong> {{produto.valor}}</h5>
+        <br />
+        <h5 class="card-title"><strong>Quantidade:</strong> {{produto.quantidade}}</h5>
+        <br />
+        <hr />
+        <a href="{% url 'listar_produtos' %}" class="btn btn-primary">Voltar</a>
+        <a class="btn btn-warning" href="{% url 'editar_produto' produto.id %}">Editar</a>
+        <a class="btn btn-danger" href="{% url 'remover_produto' produto.id %}">Remover</a>
+    </div>
+</div>
+
+{% endblock content %}
+

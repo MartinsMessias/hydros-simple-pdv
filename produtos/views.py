@@ -4,7 +4,7 @@ from produtos.models import Produto
 
 class ListarProdutosView(ListView):
     model = Produto
-    template_name = 'produtos/listar_clientes.html'
+    template_name = 'produtos/listar_produtos.html'
 
 class CadastrarProdutoView(CreateView):
     model = Produto

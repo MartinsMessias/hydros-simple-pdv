@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+{% block title %}
+Listagem de produtos
+{% endblock title %}
+
+{% block content %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Código</th>
+                <th>Preço</th>
+                <th>Estoque</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in object_list %}
+            <tr>
+                <td><a href="{% url 'detalhes_produto' i.id %}">{{i.produto|safe}}</a></td>
+                <td>{{i.codigo }}</td>
+                <td>
+                    <a href="{% url 'editar_produto' i.id %}">Editar</a>
+                    <a href="{% url 'remover_produto' i.id %}">Remover</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{% url 'cadastrar_produto' %}"><button class="btn btn-primary">Cadastrar produto</button></a>
+{% endblock content %}
