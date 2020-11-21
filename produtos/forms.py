@@ -3,7 +3,7 @@ from django import forms
 from produtos.models import Produto
 
 
-class ClienteForm(forms.ModelForm):
+class ProdutoForm(forms.ModelForm):
 
     class Meta:
         model = Produto
@@ -15,4 +15,4 @@ class ClienteForm(forms.ModelForm):
             if not self.base_fields[l].widget.attrs.get('class'):
                 self.base_fields[l].widget.attrs['class'] = 'form-control'
 
-        super(ClienteForm, self).__init__(*args, **kwargs)
+        super(ProdutoForm, self).__init__(*args, **kwargs)
