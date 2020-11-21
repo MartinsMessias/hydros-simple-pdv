@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}
+Listagem de cliente
+{% endblock title %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        Dados do cliente
+    </div>
+    <div class="card-body">
+         <h5 class="card-title"><strong>Nome:</strong> {{cliente.nome}}</h5>
+        <br />
+        <h5 class="card-title"><strong>CPF/CNPJ:</strong> {{cliente.cpf_cnpj}}</h5>
+        <br />
+        <hr />
+        <a href="{% url 'listar_clientes' %}" class="btn btn-primary">Voltar</a>
+        <a class="btn btn-warning" href="{% url 'editar_cliente' cliente.id %}">Editar</a>
+        <a class="btn btn-danger" href="{% url 'remover_cliente' cliente.id %}">Remover</a>
+    </div>
+</div>
+
+{% endblock content %}
+

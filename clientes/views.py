@@ -1,4 +1,4 @@
-from django.views.generic import ListView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from clientes.forms import ClienteForm
 from clientes.models import Cliente
 
@@ -21,3 +21,6 @@ class EditarClienteView(UpdateView):
 class RemoverClienteView(DeleteView):
     model = Cliente
     success_url = '/clientes/'
+
+class DetalhesClienteView(DetailView):
+    model = Cliente
