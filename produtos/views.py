@@ -1,26 +1,27 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 from produtos.forms import ProdutoForm
 from produtos.models import Produto
 
-class ListarProdutosView(ListView):
+class ListarProdutosView(LoginRequiredMixin, ListView):
     model = Produto
     template_name = 'produtos/listar_produtos.html'
 
-class CadastrarProdutoView(CreateView):
+class CadastrarProdutoView(LoginRequiredMixin, CreateView):
     model = Produto
     template_name = 'produtos/form_produto.html'
     form_class = ProdutoForm
     success_url = '/produtos/'
 
-class EditarProdutoView(UpdateView):
+class EditarProdutoView(LoginRequiredMixin, UpdateView):
     model = Produto
     form_class = ProdutoForm
     template_name = 'produtos/form_produto.html'
     success_url = '/produtos/'
 
-class RemoverProdutoView(DeleteView):
+class RemoverProdutoView(LoginRequiredMixin, DeleteView):
     model = Produto
     success_url = '/produtos/'
 
-class DetalhesProdutoView(DetailView):
+class DetalhesProdutoView(LoginRequiredMixin, DetailView):
     model = Produto

@@ -1,6 +1,8 @@
 import tempfile
 
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
@@ -39,16 +41,17 @@ def venda(request):
     }
     return render(request, 'vendas/form_venda.html', context)
 
-class ListarVendasView(ListView):
+class ListarVendasView(LoginRequiredMixin, ListView):
     model = Venda
     template_name = 'vendas/listar_vendas.html'
     ordering = ['-id']
 
-class DetalheVendaView(DetailView):
+class DetalheVendaView(LoginRequiredMixin, DetailView):
     model = VendaItem
     template_name = 'vendas/venda_detail.html'
 
 
+@login_required
 def gerar_relatorio(request):
     #Traz os dados do ORM
     venda = VendaItem.objects.all()
