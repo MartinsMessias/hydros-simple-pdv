@@ -1,19 +1,21 @@
-{% extends "base.html" %}
-
-{% block title %}
-Listagem de vendas
-{% endblock title %}
-
-{% block content %}
+<html>
+    <head>
+        <style>
+            table {width: 100%}
+            th, td { border: 1px solid black; padding: 2px;}
+        </style>
+    </head>
+<body>
 <div class="card">
-    <div class="card-header">
-        Dados da venda
+    <div class="card-header lead">
+        <h1>Dados da venda</h1>
     </div>
+    <hr>
     <div class="card-body">
-        <table class="table table-responsive table-striped">
+        <table>
                 <tr>
                     <th>Data:</th>
-                    <td>21/11/2020</td>
+                    <td>22/11/2020</td>
                 </tr>
                 <tr>
                     <th>Funcionário:</th>
@@ -32,7 +34,7 @@ Listagem de vendas
                     <td>Dinheiro</td>
                 </tr>
                 <tr>
-                    <th>Items do pedido:</th>
+                    <th>Itens do pedido:</th>
                     <td><ul>
                 <li>Arroz Tio Rural 5Kg x2 = R$ 19,80</li>
                 <li>Feijão Tio Rural 5Kg x2 = R$ 20,80</li>
@@ -43,11 +45,9 @@ Listagem de vendas
         <div class="card-body">
             <h3 class="lead">Valor total: <strong>R$ 40,60</strong></h3>
         </div>
-        <hr />
-        <a href="{% url 'listar_vendas' %}" class="btn btn-primary">Voltar</a>
-        <a href="{% url 'gerar_relatorio' %}" class="btn btn-warning">Imprimir</a>
     </div>
 </div>
+</body>
+</html>
 
-{% endblock content %}
 

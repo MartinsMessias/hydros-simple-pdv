@@ -22,9 +22,9 @@ Listagem de vendas
                 <td>{{i.cliente.nome }}</td>
                 <td>R$ {{i.valor_total }}</td>
                 <td>
-                    <a href="#">Ver</a>
+                    <a href="{% url 'detalhe_venda' i.pk %}">Ver</a>
                     |
-                    <a href="#">Imprimir</a>
+                    <a href="{% url 'gerar_relatorio' %}">Imprimir</a>
                     |
                     <a href="#">Remover</a>
                 </td>

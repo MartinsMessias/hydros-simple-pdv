@@ -1,7 +1,15 @@
+import tempfile
+
+from django.conf import settings
 from django.forms import inlineformset_factory
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
-from django.views import View
-from django.views.generic import ListView, DetailView, CreateView
+from django.template.loader import render_to_string
+from django.views.generic import ListView, DetailView
+
+from django_weasyprint import WeasyTemplateResponseMixin
+from django_weasyprint.views import CONTENT_TYPE_PNG
+from weasyprint import HTML
 
 from vendas.forms import VendaForm, VendaItemForm
 from vendas.models import Venda, VendaItem
@@ -40,3 +48,32 @@ class DetalheVendaView(DetailView):
     model = VendaItem
     template_name = 'vendas/venda_detail.html'
 
+
+def gerar_relatorio(request):
+    #Traz os dados do ORM
+    venda = VendaItem.objects.all()
+
+    #Junta-se o template com os dados e salvamos em uma string
+    html_string = render_to_string('vendas/venda_detail_pdf.html', {'vendaitem': venda})
+
+    #Tranformamos em HTML
+    html = HTML(string=html_string)
+
+    #Transforma o html em um PDF
+    resultado_pdf = html.write_pdf()
+
+    #Tratamento da resposta para o navegador entender de que se trata de um arquivo pdf
+    resposta = HttpResponse(content_type='application/pdf;')
+    resposta['Content-Disposition'] = 'inline; filename=relatorio.pdf'
+    resposta['Content-Transfer-Encoding'] = 'binary'
+
+    # Cria-se um arquivo temporario para o usuário realizar o download
+    with tempfile.NamedTemporaryFile(delete=True) as output:
+        # Os dados irão ser copiados para esse arquivo temp..
+        output.write(resultado_pdf)
+        output.flush()
+        output = open(output.name, 'rb')
+        resposta.write(output.read())
+
+    # Retorne para o usuario o arquivo temporário
+    return resposta
