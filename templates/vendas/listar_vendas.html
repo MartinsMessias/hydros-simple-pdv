@@ -1,14 +1,13 @@
 {% extends "base.html" %}
-
 {% block title %}
-Listagem de vendas
+    Listagem de vendas
 {% endblock title %}
 
 {% block content %}
     <h2 class="lead">Listagem de vendas</h2>
     <table class="table">
         <thead>
-            <tr>
+        <tr>
                 <th>Data</th>
                 <th>Cliente</th>
                 <th>Valor</th>
@@ -17,7 +16,7 @@ Listagem de vendas
         </thead>
         <tbody>
             {% for i in object_list %}
-            <tr>
+                <tr>
                 <td>{{i.data| date:"d/m/Y"}}</td>
                 <td>{{i.cliente.nome }}</td>
                 <td>R$ {{i.valor_total }}</td>

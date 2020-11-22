@@ -1,3 +1,4 @@
+import json
 import tempfile
 
 from django.conf import settings
@@ -9,10 +10,9 @@ from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
 from django.views.generic import ListView, DetailView
 
-from django_weasyprint import WeasyTemplateResponseMixin
-from django_weasyprint.views import CONTENT_TYPE_PNG
 from weasyprint import HTML
 
+from produtos.models import Produto
 from vendas.forms import VendaForm, VendaItemForm
 from vendas.models import Venda, VendaItem
 
@@ -50,6 +50,22 @@ class DetalheVendaView(LoginRequiredMixin, DetailView):
     model = VendaItem
     template_name = 'vendas/venda_detail.html'
 
+@login_required
+def autocompletar(request):
+    if request.is_ajax():
+        produto = request.GET.get('term', '')
+        produtos = Produto.objects.filter(produto__startswith=produto)
+
+        results = []
+
+        for produto in produtos:
+            results.append(str(f'{produto.produto} - R$ {produto.valor}'))
+
+        data = json.dumps(results)
+    else:
+        data = ''
+
+    return HttpResponse(data, 'application/json')
 
 @login_required
 def gerar_relatorio(request):

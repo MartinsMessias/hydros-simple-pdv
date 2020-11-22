@@ -24,7 +24,6 @@
                 }, 800);
             });
         });
-
     </script>
     <form method="post">
 
@@ -37,12 +36,12 @@
 
         {{ formset.management_form }}
 
-        <legend class="lead">PRODUTOS</legend>
-        <fieldset class="bg-secondary  py-1 px-2">
-            <div id="order" class="form-inline form-group">
+        <legend class="lead">LISTA DE PRODUTOS</legend>
+        <fieldset class="bg-gradient-secondary py-1 px-2">
+            <div id="order" class="form-box">
             {% for item_form in formset %}
                 <div id="item-{{ forloop.counter0 }}" class="form-group">
-                    {{ item_form. }}
+                    {{ item_form }}
                 </div>
             {% endfor %}
             </div>
