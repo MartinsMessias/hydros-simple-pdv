@@ -1,14 +1,19 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
+from django_currentuser.db.models import CurrentUserField # Campo do Usuário atual
 
 from clientes.models import Cliente
 from produtos.models import Produto
 
 
-class ItemVendaDetalhes(models.Model):
+
+class VendaItem(models.Model):
     venda = models.ForeignKey('Venda', on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.PositiveIntegerField(default=0)
+    valor = models.DecimalField(max_digits=11, decimal_places=2, default=0)
+
 
     def __str__(self):
         return self.produto.produto
@@ -20,11 +25,11 @@ class Venda(models.Model):
         ('Dinheiro', 'Dinheiro'),
         ('Cartão', 'Cartão'),
     )
+    usuario = CurrentUserField()
     cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    data = models.DateField(auto_now=True)
+    data = models.DateField(default=timezone.now)
     forma_pagamento = models.CharField(choices=FORMAS_DE_PAGAMENTO, max_length=8)
     valor_total = models.DecimalField(max_digits=11, decimal_places=2, default=0)
 
     def __str__(self):
-        return self.cliente.nome
-
+        return f'ID VENDA: {self.id}_{self.cliente.nome}'

@@ -5,6 +5,7 @@ Listagem de vendas
 {% endblock title %}
 
 {% block content %}
+    <h2 class="lead">Listagem de vendas</h2>
     <table class="table">
         <thead>
             <tr>
@@ -17,18 +18,20 @@ Listagem de vendas
         <tbody>
             {% for i in object_list %}
             <tr>
-                <td>{{i.venda_id.data| date:"d/m/Y"}}</td>
-                <td>{{i.venda_id.cliente.nome }}</td>
-                <td>R$ {{i.venda_id.valor_total }}</td>
+                <td>{{i.data| date:"d/m/Y"}}</td>
+                <td>{{i.cliente.nome }}</td>
+                <td>R$ {{i.valor_total }}</td>
                 <td>
-{#                    <a href="{% url 'editar_produto' i.id %}">Editar</a>#}
-{#                    <a href="{% url 'remover_produto' i.id %}">Remover</a>#}
+                    <a href="#">Ver</a>
+                    |
+                    <a href="#">Imprimir</a>
+                    |
+                    <a href="#">Remover</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
-{#    <a href="{% url 'detalhes_venda' i.id %}"></a>#}
 
-{#    <a href="{% url 'vender' %}"><button class="btn btn-primary">Nova venda</button></a>#}
+    <a href="{% url 'venda' %}"><button class="btn btn-primary">Nova venda</button></a>
 {% endblock content %}

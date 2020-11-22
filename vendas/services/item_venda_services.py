@@ -2,10 +2,6 @@ from django.http import Http404
 
 from ..models import ItemVendaDetalhes
 
-def listar_vendas():
-    vendas = ItemVendaDetalhes.objects.all()
-    return vendas
-
 def cadastrar_venda(venda):
     return ItemVendaDetalhes.objects.create(venda)
 
