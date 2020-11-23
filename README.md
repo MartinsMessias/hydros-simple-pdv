@@ -28,3 +28,24 @@ $ python manage.py createsuperuser
 ``` bash
 $ python manage.py runserver [porta]
 ```
+
+### Requisitos identificados
+
+ -  Tela de venda - EM CONSTRUÇÃO
+    - Data
+    - Cliente
+    - Forma de Pagamento (Dinheiro, Cartão)
+    - Items da compra
+    - Somar total da compra
+     
+ -  Imprimir via da venda - OK
+    - Baixar dados da venda em PDF
+
+ -  CRUD de Produtos - OK
+ 
+ -  CRUD de Usuários - OK
+    - Cadastro
+    - Autenticação
+ 
+ -  CRUD de Clientes - OK
+    - Opção de listar compras realizadas - EM CONSTRUÇÃO
