@@ -20,12 +20,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/3.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'ey!*mwi@3wj63mt@l)-f-cw#+2^tiwd6_ww!nt5$qfxx#jaee('
+SECRET_KEY = 'APENAS_PARA_TESTES' # os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'clientes',
     'produtos',
     'vendas',
@@ -56,7 +57,7 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'hydros.urls'
 
-LOGIN_REDIRECT_URL ='/vendas/'
+LOGIN_REDIRECT_URL ='/'
 LOGIN_URL = '/usuarios/login/'
 LOGOUT_REDIRECT_URL = '/usuarios/login/'
 

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load humanize %}
+{% block title %}
+Dashboard
+{% endblock title %}
+
+{% block content %}
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- Small boxes (Stat box) -->
+        <div class="row">
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-info">
+              <div class="inner">
+                <h3>{% if vendas_total %}{{ vendas_total }}{% else %}Sem dados{% endif %}</h3>
+                <p>Vendas Realizadas</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-bag"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-success" title="Aumento das vendas">
+              <div class="inner">
+                <h3><span style="font-size: 20px">R$</span>
+                    {% if receita_total %}
+                        {{ receita_total |floatformat:2 }}
+                    {% else %}Sem dados{% endif %}</h3>
+                <p>Receita</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-arrow-graph-up-right"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-warning">
+              <div class="inner">
+                <h3>{% if clientes_total %}{{ clientes_total }}{% else %}Sem dados{% endif %}</h3>
+                <p>Clientes Cadastrados</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-person-add"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+          <div class="col-lg-3 col-6">
+            <!-- small box -->
+            <div class="small-box bg-danger">
+              <div class="inner">
+                <h3>{% if produtos_total %}{{ produtos_total }}{% else %}Sem dados{% endif %}</h3>
+                <p>Produtos</p>
+              </div>
+              <div class="icon">
+                <i class="ion ion-pie-graph"></i>
+              </div>
+            </div>
+          </div>
+          <!-- ./col -->
+        </div>
+{% endblock content %}
