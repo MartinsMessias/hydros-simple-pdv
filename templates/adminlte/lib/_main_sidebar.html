@@ -1,0 +1,71 @@
+{% load adminlte_helpers %}
+{% load static %}
+<!-- Left side column. contains the sidebar -->
+<aside class="main-sidebar sidebar-dark-primary elevation-4">
+    <!-- Brand Logo -->
+    {% block logo %}
+        <a href="/" class="brand-link">
+            {% block logo_text %}<span class="brand-text font-weight-light"><b>Hydros</b>SimplePDV</span>{% endblock %}
+        </a>
+    {% endblock %}
+    <!-- sidebar: style can be found in sidebar.less -->
+    <div class="sidebar">
+        <!-- Sidebar user panel -->
+        {% block user_panel %}
+            <!-- Sidebar user panel (optional) -->
+            <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+                <div class="image">
+                    <img src="{% avatar_url size=90 %}" class="img-circle elevation-2" alt="User Image">
+                </div>
+                <div class="info">
+                    <a href="#" class="d-block">{% firstof request.user.get_full_name request.user.username %}</a>
+                </div>
+            </div>
+        {% endblock %}
+
+        {% block form %}{% endblock %}
+
+        <!-- sidebar menu: : style can be found in sidebar.less -->
+        {% block nav_links_ul %}
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
+                    data-accordion="false">
+                    {% block nav_links_outer %}
+                        <li class="nav-header">{% block nav_heading %}MENU DE NAVEGAÇÃO{% endblock %}</li>
+
+                        {% block nav_links %}
+                            <li class="nav-item">
+                                <a href="{% url 'listar_vendas' %}" class="nav-link">
+                                    <i class="nav-icon fas fa-dollar-sign"></i>
+                                    <p>Vendas</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'listar_produtos' %}" class="nav-link">
+                                    <i class="nav-icon fas fa-boxes"></i>
+                                    <p>Produtos</p>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'listar_clientes' %}" class="nav-link">
+                                    <i class="nav-icon fas fa-users"></i>
+                                    <p>Clientes</p>
+                                </a>
+                            </li>
+                            {% if request.user.is_staff %}
+                                <li class="nav-item">
+                                    <a href="{% url 'listar_usuarios' %}" class="nav-link">
+                                        <i class="nav-icon fas fa-user"></i>
+                                        <p>Funcionários</p>
+                                    </a>
+                                </li>
+                            {% endif %}
+
+                        {% endblock nav_links %}
+                    {% endblock nav_links_outer %}
+                </ul>
+            </nav>
+        {% endblock nav_links_ul %}
+    </div>
+    <!-- /.sidebar -->
+</aside>
