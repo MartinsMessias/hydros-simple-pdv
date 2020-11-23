@@ -3,7 +3,7 @@
 
 
 ## Como executar 
-##### Ambiente de desenvolvimento testado no [Ubuntu 20.04]*
+##### Ambiente de desenvolvimento testado no [Ubuntu 20.04 - Python3.8]*
 ``` bash
 $ git clone https://github.com/MartinsMessias/hydros-simple-pdv.git
 $ cd hydros-simple-pdv/
