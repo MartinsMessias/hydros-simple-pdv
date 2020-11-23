@@ -13,7 +13,7 @@ $ pip install -r requirements.txt
 
 ### Migrações
 ``` bash
-$ python manage.py migrate
+$ python manage.py migrate --run-syncdb
 ```
 
 ### Criando usuário administrador
@@ -22,6 +22,10 @@ $ python manage.py migrate
 ``` bash
 $ python manage.py createsuperuser
 ```
+Usuário admin do banco de dados de exemplo [example-db.sqlite3]:
+ 
+Usuário: admin
+Senha: admin
 
 ### Rodar
 
