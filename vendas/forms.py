@@ -2,12 +2,11 @@ from django import forms
 
 from vendas.models import Venda, VendaItem
 
-
 class VendaForm(forms.ModelForm):
 
     class Meta:
         model = Venda
-        exclude = ['usuario', ]
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         # Coloca em todos os campos que não tem uma 'class' do CSS, um 'form-control'.
@@ -22,7 +21,7 @@ class VendaItemForm(forms.ModelForm):
 
     class Meta:
         model = VendaItem
-        exclude = ['venda', ]
+        fields = '__all__'
 
     def __init__(self, *args, **kwargs):
         # Coloca em todos os campos que não tem uma 'class' do CSS, um 'form-control'.
