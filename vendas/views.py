@@ -50,22 +50,22 @@ class DetalheVendaView(LoginRequiredMixin, DetailView):
     model = VendaItem
     template_name = 'vendas/venda_detail.html'
 
-@login_required
-def autocompletar(request):
-    if request.is_ajax():
-        produto = request.GET.get('term', '')
-        produtos = Produto.objects.filter(produto__startswith=produto)
-
-        results = []
-
-        for produto in produtos:
-            results.append(str(f'{produto.produto} - R$ {produto.valor}'))
-
-        data = json.dumps(results)
-    else:
-        data = ''
-
-    return HttpResponse(data, 'application/json')
+# @login_required
+# def autocompletar(request):
+#     if request.is_ajax():
+#         produto = request.GET.get('term', '')
+#         produtos = Produto.objects.filter(produto__startswith=produto)
+#
+#         results = []
+#
+#         for produto in produtos:
+#             results.append(str(f'{produto.produto} - R$ {produto.valor}'))
+#
+#         data = json.dumps(results)
+#     else:
+#         data = ''
+#
+#     return HttpResponse(data, 'application/json')
 
 @login_required
 def gerar_relatorio(request):
