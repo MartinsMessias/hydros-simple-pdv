@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 {% block title %}
     Listagem de vendas
 {% endblock title %}
@@ -8,27 +9,27 @@
     <table class="table">
         <thead>
         <tr>
-                <th>Data</th>
-                <th>Cliente</th>
-                <th>Valor</th>
-                <th>Ações</th>
-            </tr>
+            <th>Data</th>
+            <th>Cliente</th>
+            <th>Valor</th>
+            <th>Ações</th>
+        </tr>
         </thead>
         <tbody>
-            {% for i in object_list %}
-                <tr>
-                <td>{{i.data| date:"d/m/Y"}}</td>
-                <td>{{i.cliente.nome }}</td>
-                <td>R$ {{i.valor_total }}</td>
+        {% for i in object_list %}
+            <tr>
+                <td>{{i.venda.data| date:"d/m/Y"}}</td>
+                <td>{{i.venda.cliente.nome }}</td>
+                <td>R$ {{i.venda.valor_total |floatformat:2 }}</td>
                 <td>
                     <a href="{% url 'detalhe_venda' i.pk %}">Ver</a>
                     |
-                    <a href="{% url 'gerar_relatorio' %}">Imprimir</a>
+                    <a href="{% url 'gerar_relatorio' i.id %}" target="_blank">Imprimir</a>
                     |
                     <a href="#">Remover</a>
                 </td>
             </tr>
-            {% endfor %}
+        {% endfor %}
         </tbody>
     </table>
 

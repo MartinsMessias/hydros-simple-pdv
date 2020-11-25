@@ -27,10 +27,12 @@ Dashboard
             <!-- small box -->
             <div class="small-box bg-success" title="Aumento das vendas">
               <div class="inner">
-                <h3><span style="font-size: 20px">R$</span>
+                <h3>
+                    <span style="font-size: 20px">R$</span>
                     {% if receita_total %}
                         {{ receita_total |floatformat:2 }}
-                    {% else %}Sem dados{% endif %}</h3>
+                    {% else %}Sem dados{% endif %}
+                </h3>
                 <p>Receita</p>
               </div>
               <div class="icon">

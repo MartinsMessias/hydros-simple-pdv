@@ -6,7 +6,7 @@ class VendaForm(forms.ModelForm):
 
     class Meta:
         model = Venda
-        fields = '__all__'
+        exclude = ('valor_total', 'usuario', )
 
     def __init__(self, *args, **kwargs):
         # Coloca em todos os campos que não tem uma 'class' do CSS, um 'form-control'.
