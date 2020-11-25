@@ -17,7 +17,7 @@ class CadastrarUsuarioView(LoginRequiredMixin, CreateView):
 class ListarUsuariosView(LoginRequiredMixin, ListView):
     model = User
     template_name = 'usuarios/listar_usuarios.html'
-    paginate_by = 10
+    paginate_by = 6
 
 class EditarUsuarioView(LoginRequiredMixin, UpdateView):
     model = User

@@ -8,12 +8,12 @@ from produtos.models import Produto
 
 class VendaItem(models.Model):
     venda = models.ForeignKey('Venda', on_delete=models.CASCADE)
-    produto = models.ForeignKey(Produto, on_delete=models.SET_NULL, null=True, blank=True)
+    produto = models.ForeignKey(Produto, on_delete=models.SET_NULL, null=True, blank=True, default='produto')
     quantidade = models.PositiveIntegerField(default=1)
     valor = models.DecimalField(max_digits=11, decimal_places=2, default=0)
 
     def __str__(self):
-        return f'ID VENDA:{self.venda.id} - {self.produto.produto}'
+        return f'{self.venda.id} - {self.produto.quantidade}'
 
 
 class Venda(models.Model):

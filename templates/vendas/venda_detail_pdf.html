@@ -5,7 +5,7 @@
         td, th{ border-bottom: 1px solid black; padding: 2px; text-align: right}
         td{ border-bottom: 1px solid black; padding: 2px; text-align: center}
     </style>
-    <title>{{ dados.venda.usuario.first_name }} - {{ dados.venda.id }}</title>
+    <title>{{ dados.venda.usuario.first_name }} -ID VENDA {{ dados.venda.id }}</title>
 </head>
 <body>
 <div class="card">
@@ -46,7 +46,7 @@
                             {% endfor %}
                         {% else %}
                             <li class="text-left">{{ dados.produto.produto }}<br/>
-                                QTD: {{ dados.produto.quantidade }} x R$ {{ dados.produto.valor }}</li>
+                                QTD: {{ dados.quantidade }} x R$ {{ dados.produto.valor }}</li>
                         {% endif %}
                     </ul>
                 </td>
