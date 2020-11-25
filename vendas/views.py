@@ -8,7 +8,8 @@ from django.forms import inlineformset_factory
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.template.loader import render_to_string
-from django.views.generic import ListView, DetailView
+from django.views import View
+from django.views.generic import ListView, DetailView, CreateView
 
 from weasyprint import HTML
 
@@ -16,33 +17,41 @@ from produtos.models import Produto
 from vendas.forms import VendaForm, VendaItemForm
 from vendas.models import Venda, VendaItem
 
-def venda(request):
-    venda_forms_data = Venda()
-    item_venda_formset = inlineformset_factory(
-        Venda, VendaItem, form=VendaItemForm,
-        extra=0, can_delete=False, min_num=1, validate_min=True,)
+def VendaView(request):
+    if request.method == "GET":
+        form_venda = VendaForm()
+        form_item_factory = inlineformset_factory(Venda, VendaItem, form=VendaItemForm, extra=1)
 
-    if request.method == 'POST':
-        forms = VendaForm(request.POST, instance=venda_forms_data, prefix='main')
-        formset = item_venda_formset(request.POST, instance=venda_forms_data, prefix='product')
+        form_item = form_item_factory()
 
-        if forms.is_valid() and formset.is_valid():
-            forms = forms.save(commit=False)
-            forms.save()
-            formset.save()
+        context = {
+            'form_venda': form_venda,
+            'form_item': form_item,
+        }
+        return render(request,'vendas/form_venda.html', context)
+
+    elif request.method == "POST":
+        form_venda = VendaForm(request.POST)
+        form_item_factory = inlineformset_factory(Venda, VendaItem, form=VendaItemForm)
+        form_item = form_item_factory(request.POST)
+
+        if form_venda.is_valid() and form_item.is_valid():
+            venda = form_venda.save()
+
+            form_item.instance = venda
+            form_item.save()
             return redirect('listar_vendas')
-    else:
-        forms = VendaForm(instance=venda_forms_data, prefix='main')
-        formset = item_venda_formset(instance=venda_forms_data, prefix='product')
+        else:
+            context = {
+                'form_venda': form_venda,
+                'form_item': form_item
+            }
+            return render(request, 'vendas/form_venda.html', context)
 
-    context = {
-        'form': forms,
-        'formset': formset,
-    }
-    return render(request, 'vendas/form_venda.html', context)
+
 
 class ListarVendasView(LoginRequiredMixin, ListView):
-    model = Venda
+    model = VendaItem
     template_name = 'vendas/listar_vendas.html'
     ordering = ['-id']
 
@@ -50,30 +59,30 @@ class DetalheVendaView(LoginRequiredMixin, DetailView):
     model = VendaItem
     template_name = 'vendas/venda_detail.html'
 
+# @login_required
+# def autocompletar(request):
+#     if request.is_ajax():
+#         produto = request.GET.get('term', '')
+#         produtos = Produto.objects.filter(produto__startswith=produto)
+#
+#         results = []
+#
+#         for produto in produtos:
+#             results.append(str(f'{produto.produto} - R$ {produto.valor}'))
+#
+#         data = json.dumps(results)
+#     else:
+#         data = ''
+#
+#     return HttpResponse(data, 'application/json')
+
 @login_required
-def autocompletar(request):
-    if request.is_ajax():
-        produto = request.GET.get('term', '')
-        produtos = Produto.objects.filter(produto__startswith=produto)
-
-        results = []
-
-        for produto in produtos:
-            results.append(str(f'{produto.produto} - R$ {produto.valor}'))
-
-        data = json.dumps(results)
-    else:
-        data = ''
-
-    return HttpResponse(data, 'application/json')
-
-@login_required
-def gerar_relatorio(request):
+def gerar_relatorio(request, id):
     #Traz os dados do ORM
-    venda = VendaItem.objects.all()
+    venda = VendaItem.objects.get(id=id)
 
     #Junta-se o template com os dados e salvamos em uma string
-    html_string = render_to_string('vendas/venda_detail_pdf.html', {'vendaitem': venda})
+    html_string = render_to_string('vendas/venda_detail_pdf.html', {'dados': venda})
 
     #Tranformamos em HTML
     html = HTML(string=html_string)

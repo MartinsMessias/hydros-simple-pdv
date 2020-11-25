@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load humanize %}
 
 {% block title %}
 Listagem de vendas
@@ -10,42 +11,51 @@ Listagem de vendas
         Dados da venda
     </div>
     <div class="card-body">
-        <table class="table table-responsive table-striped">
+        <table class="text-right table-striped" style="width: 100%;">
                 <tr>
                     <th>Data:</th>
-                    <td>21/11/2020</td>
+                    <td class="text-left">{{ object.venda.data | date }}</td>
                 </tr>
                 <tr>
                     <th>Funcionário:</th>
-                    <td>USUÁRIO DO FUNCIONÁRIO</td>
+                    <td class="text-left">{{ object.venda.usuario.first_name }}</td>
                 </tr>
                 <tr>
                     <th>Cliente:</th>
-                    <td>NOME DO CLIENTE</td>
+                    <td class="text-left">{{ object.venda.cliente.nome }}</td>
                 </tr>
                 <tr>
                     <th>CPF/CNPJ:</th>
-                    <td>000.000.000-00</td>
+                    <td class="text-left">{{ object.venda.cliente.cpf_cnpj }}</td>
                 </tr>
                 <tr>
                     <th>Forma de pagamento:</th>
-                    <td>Dinheiro</td>
+                    <td class="text-left">{{ object.venda.forma_pagamento }}</td>
                 </tr>
                 <tr>
                     <th>Items do pedido:</th>
-                    <td><ul>
-                <li>Arroz Tio Rural 5Kg x2 = R$ 19,80</li>
-                <li>Feijão Tio Rural 5Kg x2 = R$ 20,80</li>
-            </ul></td>
+                    <td>
+                        <ul>
+                            {% if object.produto.all %}
+                                {% for item in object.produto.all %}
+                                    <li class="text-left">{{ item.produto }}
+                                        <br/>{{ item.quantidade }} x R$ {{ item.valor }}</li>
+                                {% endfor %}
+                            {% else %}
+                                <li class="text-left">{{ object.produto.produto }}<br/>
+                                    QTD: {{ object.produto.quantidade }} x R$ {{ object.produto.valor }}</li>
+                            {% endif %}
+                        </ul>
+                    </td>
                 </tr>
         </table>
         <br />
         <div class="card-body">
-            <h3 class="lead">Valor total: <strong>R$ 40,60</strong></h3>
+            <h3 class="lead text-right display-5">Valor total: <strong>R$ {{ object.venda.valor_total }}</strong></h3>
         </div>
         <hr />
         <a href="{% url 'listar_vendas' %}" class="btn btn-primary">Voltar</a>
-        <a href="{% url 'gerar_relatorio' %}" class="btn btn-warning">Imprimir</a>
+        <a href="{% url 'gerar_relatorio' object.id %}" target="_blank" class="btn btn-warning">Imprimir</a>
     </div>
 </div>
 

@@ -5,43 +5,25 @@
 {% endblock title %}
 
 {% block content %}
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script>
-        $(document).ready(function(){
-            $("#add-item").click(function(ev) {
-                ev.preventDefault();
-                var count = $('#order').children().length;
-                var tmplMarkup = $("#item-order").html();
-                var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
-                $("div#order").append(compiledTmpl);
-
-                // update form count
-                $('#id_product-TOTAL_FORMS').attr('value', count + 1);
-
-                // some animate to scroll to view our new form
-                $('html, body').animate({
-                    scrollTop: $("#add-item").position().top-200
-                }, 800);
-            });
-        });
-    </script>
     <form method="post">
-
         {% csrf_token %}
         <div class="form-group">
-            <label>Data: {{ form.data }}</label>
-            <label>Cliente:  {{ form.cliente }}</label>
-            <label>Forma de pagamento:  {{ form.forma_pagamento }}</label>
+            <label>Data: {{ form_venda.data }}</label>
+            <label>Cliente:  {{ form_venda.cliente }}</label>
+            <label>Forma de pagamento:  {{ form_venda.forma_pagamento }}</label>
         </div>
 
-        {{ formset.management_form }}
+        {{ form_item.management_form }}
+        {{ form_item.management_form.errors }}
+        {{ form_venda.errors }}
 
         <legend class="lead">LISTA DE PRODUTOS</legend>
         <fieldset class="bg-gradient-secondary py-1 px-2">
             <div id="order" class="form-box">
-            {% for item_form in formset %}
+            {% for item in form_item %}
+                <hr>
                 <div id="item-{{ forloop.counter0 }}" class="form-group">
-                    {{ item_form }}
+                    {{ item }}
                 </div>
             {% endfor %}
             </div>
@@ -57,15 +39,8 @@
         <hr>
         <div class="form-group">
             <a href="{% url 'listar_vendas' %}" class="btn btn-secondary">Voltar</a>
-            <button class="btn btn-primary" type="submit" disabled name="cadastrar">Finalizar [EM MANUTENÇÃO]</button>
-            <a class="btn btn-warning" href="{% url 'gerar_relatorio' %}">Exemplo da opção Imprimir</a>
+            <button class="btn btn-primary" type="submit"  name="cadastrar">Finalizar</button>
+{#            <a class="btn btn-warning" href="{% url 'gerar_relatorio' %}">Exemplo da opção Imprimir</a>#}
         </div>
     </form>
-
-    <script type="text/html" id="item-order">
-        <div id="item-__prefix__" style="margin-top: 10px">
-            {{ formset.empty_form }}
-        </div>
-    </script>
-
 {% endblock content %}

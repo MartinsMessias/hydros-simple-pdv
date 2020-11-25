@@ -1,10 +1,12 @@
 <html>
-    <head>
-        <style>
-            table {width: 100%}
-            th, td { border: 1px solid black; padding: 2px;}
-        </style>
-    </head>
+<head>
+    <style>
+        table {width: 100%}
+        td, th{ border-bottom: 1px solid black; padding: 2px; text-align: right}
+        td{ border-bottom: 1px solid black; padding: 2px; text-align: center}
+    </style>
+    <title>{{ dados.venda.usuario.first_name }} - {{ dados.venda.id }}</title>
+</head>
 <body>
 <div class="card">
     <div class="card-header lead">
@@ -13,37 +15,46 @@
     <hr>
     <div class="card-body">
         <table>
-                <tr>
-                    <th>Data:</th>
-                    <td>22/11/2020</td>
-                </tr>
-                <tr>
-                    <th>Funcionário:</th>
-                    <td>USUÁRIO DO FUNCIONÁRIO</td>
-                </tr>
-                <tr>
-                    <th>Cliente:</th>
-                    <td>NOME DO CLIENTE</td>
-                </tr>
-                <tr>
-                    <th>CPF/CNPJ:</th>
-                    <td>000.000.000-00</td>
-                </tr>
-                <tr>
-                    <th>Forma de pagamento:</th>
-                    <td>Dinheiro</td>
-                </tr>
-                <tr>
-                    <th>Itens do pedido:</th>
-                    <td><ul>
-                <li>Arroz Tio Rural 5Kg x2 = R$ 19,80</li>
-                <li>Feijão Tio Rural 5Kg x2 = R$ 20,80</li>
-            </ul></td>
-                </tr>
+            <tr>
+                <th>Data:</th>
+                <td>{{ dados.venda.data | date:"d/m/Y" }}</td>
+            </tr>
+            <tr>
+                <th>Funcionário:</th>
+                <td>{{ dados.venda.usuario.first_name }}</td>
+            </tr>
+            <tr>
+                <th>Cliente:</th>
+                <td>{{ dados.venda.cliente.nome }}</td>
+            </tr>
+            <tr>
+                <th>CPF/CNPJ:</th>
+                <td>{{ dados.venda.cliente.cpf_cnpj }}</td>
+            </tr>
+            <tr>
+                <th>Forma de pagamento:</th>
+                <td>{{ dados.venda.forma_pagamento }}</td>
+            </tr>
+            <tr>
+                <th>Itens do pedido:</th>
+                <td>
+                    <ul>
+                        {% if dados.produto.all %}
+                            {% for item in dados.produto.all %}
+                                <li class="text-left">{{ item.produto }}
+                                    <br/>{{ item.quantidade }} x R$ {{ item.valor }}</li>
+                            {% endfor %}
+                        {% else %}
+                            <li class="text-left">{{ dados.produto.produto }}<br/>
+                                QTD: {{ dados.produto.quantidade }} x R$ {{ dados.produto.valor }}</li>
+                        {% endif %}
+                    </ul>
+                </td>
+            </tr>
         </table>
         <br />
         <div class="card-body">
-            <h3 class="lead">Valor total: <strong>R$ 40,60</strong></h3>
+            <h3 class="lead">Valor total: <strong>R$ {{ dados.venda.valor_total |floatformat:2 }}</strong></h3>
         </div>
     </div>
 </div>
