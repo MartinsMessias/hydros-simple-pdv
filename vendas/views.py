@@ -40,7 +40,9 @@ def VendaView(request):
 
             form_item.instance = venda
             form_item.save()
-            return redirect('listar_vendas')
+            venda_realizada = VendaItem.objects.latest('id')
+            context = {"object": venda_realizada}
+            return render(request, 'vendas/venda_detail.html', context)
         else:
             context = {
                 'form_venda': form_venda,
@@ -48,44 +50,44 @@ def VendaView(request):
             }
             return render(request, 'vendas/form_venda.html', context)
 
-def VendaEditarView(request, pk):
-    if request.method == "GET":
-        venda = VendaItem.objects.get(pk=pk)
-
-        if not venda:
-            return redirect('listar_vendas')
-
-        form_venda = VendaForm(instance=venda)
-        form_item_factory = inlineformset_factory(Venda, VendaItem, form=VendaItemForm)
-        form_item = form_item_factory(instance=venda)
-
-        context = {
-            'form_venda': form_venda,
-            'form_item': form_item,
-        }
-        return render(request,'vendas/form_venda.html', context)
-
-    elif request.method == "POST":
-        venda = VendaItem.objects.get(pk=pk)
-
-        if not venda:
-            return redirect('listar_vendas')
-
-        form_venda = VendaForm(request.POST, instance=venda)
-        form_item_factory = inlineformset_factory(Venda, VendaItem, form=VendaItemForm)
-        form_item = form_item_factory(request.POST, instance=venda)
-
-        if form_venda.is_valid() and form_item.is_valid():
-            venda = form_venda.save()
-            form_item.instance = venda
-            form_item.save()
-            return redirect('listar_vendas')
-        else:
-            context = {
-                'form_venda': form_venda,
-                'form_item': form_item
-            }
-            return render(request, 'vendas/form_venda.html', context)
+# def VendaEditarView(request, pk):
+#     if request.method == "GET":
+#         venda = VendaItem.objects.get(pk=pk)
+#
+#         if not venda:
+#             return redirect('listar_vendas')
+#
+#         form_venda = VendaForm(instance=venda)
+#         form_item_factory = inlineformset_factory(Venda, VendaItem, form=VendaItemForm, extra=3)
+#         form_item = form_item_factory(instance=venda)
+#
+#         context = {
+#             'form_venda': form_venda,
+#             'form_item': form_item,
+#         }
+#         return render(request,'vendas/form_venda.html', context)
+#
+#     elif request.method == "POST":
+#         venda = Venda.objects.get(pk=pk)
+#
+#         if not venda:
+#             return redirect('listar_vendas')
+#
+#         form_venda = VendaForm(request.POST, instance=venda)
+#         form_item_factory = inlineformset_factory(Venda, VendaItem, form=VendaItemForm)
+#         form_item = form_item_factory(request.POST, instance=venda)
+#
+#         if form_venda.is_valid() and form_item.is_valid():
+#             venda = form_venda.save()
+#             form_item.instance = venda
+#             form_item.save()
+#             return redirect('listar_vendas')
+#         else:
+#             context = {
+#                 'form_venda': form_venda,
+#                 'form_item': form_item
+#             }
+#             return render(request, 'vendas/form_venda.html', context)
 
 class ListarVendasView(LoginRequiredMixin, ListView):
     model = VendaItem
