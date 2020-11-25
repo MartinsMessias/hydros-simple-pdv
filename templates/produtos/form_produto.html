@@ -4,6 +4,8 @@
 Cadastro de produtos
 {% endblock title %}
 {% block content %}
+    <h2 class="lead">Cadastro de produto</h2>
+    <hr>
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
@@ -32,7 +34,7 @@ Cadastro de produtos
 
         <div class="form-group">
             {{ form.quantidade.errors }}
-            <label>Quantidade: </label>
+            <label>Quantidade em estoque: </label>
             {{ form.quantidade }}
         </div>
 

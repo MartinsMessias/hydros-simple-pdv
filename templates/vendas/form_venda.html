@@ -5,24 +5,57 @@
 {% endblock title %}
 
 {% block content %}
+    <h2 class="lead">Realizar venda</h2>
+    <hr>
     <form method="post">
         {% csrf_token %}
         <div class="form-group">
             <label>Data: {{ form_venda.data }}</label>
-            <label>Cliente:  {{ form_venda.cliente }}</label>
+            <label>Cliente: <a href="{% url 'cadastrar_cliente' %}"><i class="fa fa-plus"></i>Novo</a> {{ form_venda.cliente }}</label>
             <label>Forma de pagamento:  {{ form_venda.forma_pagamento }}</label>
         </div>
 
         {{ form_item.management_form }}
         {{ form_item.management_form.errors }}
         {{ form_venda.errors }}
+        <script>
+            function getElementByXpath(path) {
+              return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+            }
+
+            function getQuantidade(){
+                var q = getElementByXpath("//input[@id='id_vendaitem_set-0-quantidade']");
+                return parseInt(q.value);
+            }
+            function setTotal(total){
+                getElementByXpath("//input[@id='id_vendaitem_set-0-valor']").value = total.toFixed(2);
+            }
+
+            function calculaPreco(c){
+                var price = c.options[c.selectedIndex].text.split('-');
+                var price_formated = parseFloat(price.pop().split(' ').pop());
+                setTotal(price_formated*getQuantidade());
+            }
+
+            window.addEventListener('load', ()=>{
+                var produto = getElementByXpath("//select[@id='id_vendaitem_set-0-produto']");
+                var quantidade = getElementByXpath("//input[@id='id_vendaitem_set-0-quantidade']");
+
+                produto.addEventListener('change', ()=>{calculaPreco(produto);});
+                quantidade.addEventListener('change', ()=>{calculaPreco(produto);});
+
+            });
+
+
+
+        </script>
 
         <legend class="lead">LISTA DE PRODUTOS</legend>
         <fieldset class="bg-gradient-secondary py-1 px-2">
             <div id="order" class="form-box">
             {% for item in form_item %}
                 <hr>
-                <div id="item-{{ forloop.counter0 }}" class="form-group">
+                <div class="form-group sa">
                     {{ item }}
                 </div>
             {% endfor %}
