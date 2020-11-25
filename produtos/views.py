@@ -6,6 +6,7 @@ from produtos.models import Produto
 class ListarProdutosView(LoginRequiredMixin, ListView):
     model = Produto
     template_name = 'produtos/listar_produtos.html'
+    paginate_by = 10
 
 class CadastrarProdutoView(LoginRequiredMixin, CreateView):
     model = Produto

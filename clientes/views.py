@@ -6,6 +6,7 @@ from clientes.models import Cliente
 class ListarClientesView(LoginRequiredMixin, ListView):
     model = Cliente
     template_name = 'clientes/listar_clientes.html'
+    paginate_by = 10
 
 class CadastrarClienteView(LoginRequiredMixin, CreateView):
     model = Cliente

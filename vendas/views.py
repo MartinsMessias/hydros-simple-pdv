@@ -54,6 +54,7 @@ class ListarVendasView(LoginRequiredMixin, ListView):
     model = VendaItem
     template_name = 'vendas/listar_vendas.html'
     ordering = ['-id']
+    paginate_by = 10
 
 class DetalheVendaView(LoginRequiredMixin, DetailView):
     model = VendaItem
