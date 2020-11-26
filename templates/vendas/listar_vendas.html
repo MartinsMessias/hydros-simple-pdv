@@ -18,9 +18,9 @@
         <tbody>
         {% for i in object_list %}
             <tr>
-                <td>{{i.venda.data| date:"d/m/Y"}}</td>
-                <td>{{i.venda.cliente.nome }}</td>
-                <td>R$ {{i.venda.valor_total |floatformat:2 }}</td>
+                <td>{{i.data | date:"d/m/Y"}}</td>
+                <td>{{i.cliente.nome }}</td>
+                <td>R$ {{i.valor_total |floatformat:2 }}</td>
                 <td>
                     <a href="{% url 'detalhe_venda' i.pk %}">Ver</a>
                     |

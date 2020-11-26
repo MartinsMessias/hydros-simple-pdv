@@ -1,9 +1,21 @@
 <html>
 <head>
     <style>
-        table {width: 100%}
-        td, th{ border-bottom: 1px solid black; padding: 2px; text-align: right}
-        td{ border-bottom: 1px solid black; padding: 2px; text-align: center}
+        table {
+            width: 100%
+        }
+
+        td, th {
+            border-bottom: 1px solid black;
+            padding: 2px;
+            text-align: right
+        }
+
+        td {
+            border-bottom: 1px solid black;
+            padding: 2px;
+            text-align: center
+        }
     </style>
     <title>{{ dados.venda.usuario.first_name }} -ID VENDA {{ dados.venda.id }}</title>
 </head>
@@ -17,42 +29,42 @@
         <table>
             <tr>
                 <th>Data:</th>
-                <td>{{ dados.venda.data | date:"d/m/Y" }}</td>
+                <td>{{ dados.data | date:"d/m/Y" }}</td>
             </tr>
             <tr>
                 <th>Funcionário:</th>
-                <td>{{ dados.venda.usuario.first_name }}</td>
+                <td>{{ dados.usuario.first_name }}</td>
             </tr>
             <tr>
                 <th>Cliente:</th>
-                <td>{{ dados.venda.cliente.nome }}</td>
+                <td>{{ dados.cliente.nome }}</td>
             </tr>
             <tr>
                 <th>CPF/CNPJ:</th>
-                <td>{{ dados.venda.cliente.cpf_cnpj }}</td>
+                <td>{{ dados.cliente.cpf_cnpj }}</td>
             </tr>
             <tr>
                 <th>Forma de pagamento:</th>
-                <td>{{ dados.venda.forma_pagamento }}</td>
+                <td>{{ dados.forma_pagamento }}</td>
             </tr>
             <tr>
                 <th>Itens do pedido:</th>
                 <td>
                     <ul>
-                        {% if dados.produto.all %}
-                            {% for item in dados.produto.all %}
-                                <li class="text-left">{{ item.produto }}
+                        {% if dados.vendaitem_set.all %}
+                            {% for item in dados.vendaitem_set.all %}
+                                <li class="text-left border-bottom">{{ item.produto }}
                                     <br/>{{ item.quantidade }} x R$ {{ item.valor }}</li>
                             {% endfor %}
                         {% else %}
-                            <li class="text-left">{{ dados.produto.produto }}<br/>
+                            <li class="text-left border-bottom">{{ dados.produto.produto }}<br/>
                                 QTD: {{ dados.quantidade }} x R$ {{ dados.produto.valor }}</li>
                         {% endif %}
                     </ul>
                 </td>
             </tr>
         </table>
-        <br />
+        <br/>
         <div class="card-body">
             <h3 class="lead">Valor total: <strong>R$ {{ dados.venda.valor_total |floatformat:2 }}</strong></h3>
         </div>

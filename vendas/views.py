@@ -90,13 +90,14 @@ def VendaView(request):
 #             return render(request, 'vendas/form_venda.html', context)
 
 class ListarVendasView(LoginRequiredMixin, ListView):
-    model = VendaItem
+    model = Venda
     template_name = 'vendas/listar_vendas.html'
     ordering = ['-id']
     paginate_by = 6
 
+
 class DetalheVendaView(LoginRequiredMixin, DetailView):
-    model = VendaItem
+    model = Venda
     template_name = 'vendas/venda_detail.html'
 
 # @login_required
@@ -119,7 +120,7 @@ class DetalheVendaView(LoginRequiredMixin, DetailView):
 @login_required
 def gerar_relatorio(request, id):
     #Traz os dados do ORM
-    venda = VendaItem.objects.get(id=id)
+    venda = Venda.objects.get(id=id)
 
     #Junta-se o template com os dados e salvamos em uma string
     html_string = render_to_string('vendas/venda_detail_pdf.html', {'dados': venda})

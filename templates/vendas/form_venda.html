@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% load tags %}
 {% block title %}
     Realizar venda
@@ -7,7 +8,27 @@
 {% block content %}
     <h2 class="lead">Realizar venda</h2>
     <hr>
-    <form method="post">
+    <script src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+    <script>
+            $(document).ready(function(){
+                $("#add-item").click(function(ev) {
+                    ev.preventDefault();
+                    var count = $('#order').children().length;
+                    var tmplMarkup = $("#item-order").html();
+                    var compiledTmpl = tmplMarkup.replace(/__prefix__/g, count);
+                    $("div#order").append(compiledTmpl);
+
+                    // update form count
+                    $('#id_product-TOTAL_FORMS').attr('value', count + 1);
+
+                    // some animate to scroll to view our new form
+                    $('html, body').animate({
+                        scrollTop: $("#add-item").position().top-200
+                    }, 800);
+                });
+            });
+        </script>
+    <form method="post" id="form-id">
         {% csrf_token %}
         <div class="form-group">
             <label>Data: {{ form_venda.data }}</label>
@@ -18,9 +39,39 @@
         {{ form_item.management_form }}
         {{ form_item.management_form.errors }}
         {{ form_venda.errors }}
+
+
+        <legend class="lead">LISTA DE PRODUTOS</legend>
+        <fieldset class="bg-gradient-secondary py-1 px-2">
+            <div id="order" class="form-box">
+                {% for item in form_item %}
+                    <hr>
+                    <div class="form-group sa">
+                        <div id="item-{{ forloop.counter0 }}" class="form-group">
+                            {{ item }}
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <hr>
+            <a class="btn btn-info" id="add-item"><i class="fa fa-plus"></i> Adicionar item</a>
+            <hr>
+
+        </fieldset>
+        <hr>
+        <div class="card-body">
+            <h3 class="lead">Valor total: R$ <span id="valor_total">0,00</span></h3>
+        </div>
+        <hr>
+        <div class="form-group">
+            <a href="{% url 'listar_vendas' %}" class="btn btn-secondary">Voltar</a>
+            <button class="btn btn-primary" type="submit"  name="cadastrar">Finalizar</button>
+        </div>
+    </form>
+
         <script>
             function getElementByXpath(path) {
-              return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
             }
 
             function getQuantidade(){
@@ -45,34 +96,10 @@
                 quantidade.addEventListener('change', ()=>{calculaPreco(produto);});
 
             });
-
-
-
         </script>
-
-        <legend class="lead">LISTA DE PRODUTOS</legend>
-        <fieldset class="bg-gradient-secondary py-1 px-2">
-            <div id="order" class="form-box">
-            {% for item in form_item %}
-                <hr>
-                <div class="form-group sa">
-                    {{ item }}
-                </div>
-            {% endfor %}
+         <script type="text/html" id="item-order">
+            <div id="item-__prefix__" style="margin-top: 10px">
+                {{ form_item.empty_form }}
             </div>
-            <hr>
-            <a class="btn btn-info" id="add-item"><i class="fa fa-plus"></i> Adicionar item</a>
-            <hr>
-
-        </fieldset>
-        <hr>
-        <div class="card-body">
-            <h3 class="lead">Valor total: R$ <span id="valor_total">0,00</span></h3>
-        </div>
-        <hr>
-        <div class="form-group">
-            <a href="{% url 'listar_vendas' %}" class="btn btn-secondary">Voltar</a>
-            <button class="btn btn-primary" type="submit"  name="cadastrar">Finalizar</button>
-        </div>
-    </form>
+        </script>
 {% endblock content %}

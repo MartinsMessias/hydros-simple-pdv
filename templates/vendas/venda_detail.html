@@ -2,63 +2,63 @@
 {% load humanize %}
 
 {% block title %}
-Listagem de vendas
+    Listagem de vendas
 {% endblock title %}
 
 {% block content %}
-<div class="card">
-    <div class="card-header">
-        Dados da venda
-    </div>
-    <div class="card-body">
-        <table class="text-right table-striped" style="width: 100%;">
+    <div class="card">
+        <div class="card-header">
+            Dados da venda
+        </div>
+        <div class="card-body">
+            <table class="text-right table-striped" style="width: 100%;">
                 <tr>
                     <th>Data:</th>
-                    <td class="text-left">{{ object.venda.data | date }}</td>
+                    <td class="text-left">{{ object.data | date }}</td>
                 </tr>
                 <tr>
                     <th>Funcionário:</th>
-                    <td class="text-left">{{ object.venda.usuario.first_name }}</td>
+                    <td class="text-left">{{ object.usuario.first_name }}</td>
                 </tr>
                 <tr>
                     <th>Cliente:</th>
-                    <td class="text-left">{{ object.venda.cliente.nome }}</td>
+                    <td class="text-left">{{ object.cliente.nome }}</td>
                 </tr>
                 <tr>
                     <th>CPF/CNPJ:</th>
-                    <td class="text-left">{{ object.venda.cliente.cpf_cnpj }}</td>
+                    <td class="text-left">{{ object.cliente.cpf_cnpj }}</td>
                 </tr>
                 <tr>
                     <th>Forma de pagamento:</th>
-                    <td class="text-left">{{ object.venda.forma_pagamento }}</td>
+                    <td class="text-left">{{ object.forma_pagamento }}</td>
                 </tr>
                 <tr>
                     <th>Items do pedido:</th>
                     <td>
                         <ul>
-                            {% if object.produto.all %}
-                                {% for item in object.produto.all %}
-                                    <li class="text-left">{{ item.produto }}
+                            {% if object.vendaitem_set.all %}
+                                {% for item in object.vendaitem_set.all %}
+                                    <li class="text-left border-bottom">{{ item.produto }}
                                         <br/>{{ item.quantidade }} x R$ {{ item.valor }}</li>
                                 {% endfor %}
                             {% else %}
-                                <li class="text-left">{{ object.produto.produto }}<br/>
+                                <li class="text-left border-bottom">{{ object.produto.produto }}<br/>
                                     QTD: {{ object.quantidade }} x R$ {{ object.produto.valor }}</li>
                             {% endif %}
                         </ul>
                     </td>
                 </tr>
-        </table>
-        <br />
-        <div class="card-body">
-            <h3 class="lead text-right display-5">Valor total: <strong>R$ {{ object.venda.valor_total }}</strong></h3>
+            </table>
+            <br />
+            <div class="card-body">
+                <h3 class="lead text-right display-5">Valor total: <strong>R$ {{ object.venda.valor_total }}</strong></h3>
+            </div>
+            <hr />
+            <a href="{% url 'listar_vendas' %}" class="btn btn-primary">Voltar</a>
+            {#        <a href="{% url 'editar_venda' vendaitem.pk %}" class="btn btn-success">Editar</a>#}
+            <a href="{% url 'gerar_relatorio' object.id %}" target="_blank" class="btn btn-warning">Imprimir</a>
         </div>
-        <hr />
-        <a href="{% url 'listar_vendas' %}" class="btn btn-primary">Voltar</a>
-{#        <a href="{% url 'editar_venda' vendaitem.pk %}" class="btn btn-success">Editar</a>#}
-        <a href="{% url 'gerar_relatorio' object.id %}" target="_blank" class="btn btn-warning">Imprimir</a>
     </div>
-</div>
 
 {% endblock content %}
 
