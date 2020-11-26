@@ -4,7 +4,7 @@ from vendas.views import *
 
 urlpatterns = [
     path('', ListarVendasView.as_view(), name='listar_vendas'),
-    path('venda/', VendaView, name='venda'),
+    path('venda/', VendaView.as_view(), name='venda'),
     path('detalhes/<str:pk>', DetalheVendaView.as_view(), name='detalhe_venda'),
     # path('editar/<str:pk>', VendaEditarView, name='editar_venda'),
     path('relatorio/<str:id>', gerar_relatorio, name='gerar_relatorio'),

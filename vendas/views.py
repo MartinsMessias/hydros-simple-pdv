@@ -6,49 +6,49 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.forms import inlineformset_factory
 from django.http import HttpResponse
-from django.shortcuts import redirect, render
+from django.shortcuts import render, redirect
 from django.template.loader import render_to_string
-from django.views import View
-from django.views.generic import ListView, DetailView, CreateView, UpdateView
+from django.views.generic import ListView, DetailView, CreateView
 
 from weasyprint import HTML
 
-from produtos.models import Produto
-from vendas.forms import VendaForm, VendaItemForm
+from vendas.forms import VendaForm, VendaItemForm, ItemVendaFormSet
 from vendas.models import Venda, VendaItem
 
-def VendaView(request):
-    if request.method == "GET":
-        form_venda = VendaForm()
-        form_item_factory = inlineformset_factory(Venda, VendaItem, form=VendaItemForm, extra=1)
 
-        form_item = form_item_factory()
+class VendaView(LoginRequiredMixin, CreateView):
+    template_name = 'vendas/form_venda.html'
+    form_class = VendaForm
 
-        context = {
-            'form_venda': form_venda,
-            'form_item': form_item,
-        }
-        return render(request,'vendas/form_venda.html', context)
+    def get_context_data(self, **kwargs):
+        context = super(VendaView, self).get_context_data(**kwargs)
 
-    elif request.method == "POST":
-        form_venda = VendaForm(request.POST)
-        form_item_factory = inlineformset_factory(Venda, VendaItem, form=VendaItemForm)
-        form_item = form_item_factory(request.POST)
-
-        if form_venda.is_valid() and form_item.is_valid():
-            venda = form_venda.save()
-
-            form_item.instance = venda
-            form_item.save()
-            venda_realizada = VendaItem.objects.latest('id')
-            context = {"object": venda_realizada}
-            return render(request, 'vendas/venda_detail.html', context)
+        if self.request.POST:
+            context['forms'] = VendaForm(self.request.POST)
+            context['formset'] = ItemVendaFormSet(self.request.POST)
         else:
-            context = {
-                'form_venda': form_venda,
-                'form_item': form_item
-            }
-            return render(request, 'vendas/form_venda.html', context)
+            context['forms'] = VendaForm()
+            context['formset'] = ItemVendaFormSet()
+        return context
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        forms = context['forms']
+        formset = context['formset']
+
+        if forms.is_valid() and formset.is_valid():
+            self.object = form.save()
+            forms.instance = self.object
+            formset.instance = self.object
+            forms.save()
+            formset.save()
+
+            venda_realizada = Venda.objects.latest('id')
+            context = {"object": venda_realizada}
+            return render(self.request, 'vendas/venda_detail.html', context)
+        else:
+            return self.render_to_response(self.get_context_data(form=form))
+
 
 # def VendaEditarView(request, pk):
 #     if request.method == "GET":
