@@ -3,6 +3,8 @@
 
 
 ## Como executar 
+##### Instalar dependencias do WeasyPrint
+https://weasyprint.readthedocs.io/en/stable/install.html
 ##### Ambiente de desenvolvimento testado no [Ubuntu 20.04 - Python3.8]*
 ``` bash
 $ git clone https://github.com/MartinsMessias/hydros-simple-pdv.git
@@ -35,12 +37,12 @@ $ python manage.py runserver [porta]
 
 ### Requisitos identificados
 
- -  Tela de venda - EM CONSTRUÇÃO
-    - Data
-    - Cliente
-    - Forma de Pagamento (Dinheiro, Cartão)
-    - Items da compra
-    - Somar total da compra
+ -  Tela de venda 
+    - Data - OK
+    - Cliente - OK
+    - Forma de Pagamento (Dinheiro, Cartão) - OK
+    - Items da compra - EM CONSTRUÇÃO
+    - Somar total da compra - EM CONSTRUÇÃO
      
  -  Imprimir via da venda - OK
     - Baixar dados da venda em PDF
@@ -52,4 +54,4 @@ $ python manage.py runserver [porta]
     - Autenticação
  
  -  CRUD de Clientes - OK
-    - Opção de listar compras realizadas - EM CONSTRUÇÃO
+    - Opção de listar compras realizadas - OK
